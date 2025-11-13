@@ -31,15 +31,20 @@
   <h1>Welcome to our Book Reservation App</h1>
 </header>
 <main>
-  <form action="/bookReservation" method="POST">
+  <form th:action="@{/listbooks}" method="get">
+    <label>Title contains:</label>
+    <input type="text" name="searchText" th:value="${searchText}" placeholder="Enter title"/>
+    <br>
+    <label>Minimum rating:</label>
+    <input type="number" name="minRating" step="0.1" th:value="${minRating}" placeholder="e.g. 4.0"/>
+    <br>
+    <input type="submit" value="Search"/>
+  </form>
+  <form action="/bookReservation" method="post">
     <h2>Choose a book:</h2>
-    <!-- Display radio buttons for each book,
-         the value should be the book title
-         and the displayed text should be:
-         Title: <book_title>, Genre: <book_genre>, Rating: <average_rating> -->
-    <div>
-      <input th:each="book: ${books}" th:text="'Title: ' + ${book.title} + ', Genre: ' + ${book.genre} + ', Rating: ' + ${book.averageRating}"  type="radio">
-
+    <div th:each="book : ${books}">
+      <input type="radio" name="bookTitle" th:value="${book.title}" required/>
+      <span th:text="'Title: ' + ${book.title} + ', Genre: ' + ${book.genre} + ', Rating: ' + ${book.averageRating}"></span>
     </div>
     <h2>Enter your information:</h2>
     <label>Your Name:</label>
@@ -48,7 +53,7 @@
     <input type="text" name="readerAddress" required><br/>
 
     <h2>Choose number of copies:</h2>
-    <input type="number" name="numCopies" min="1" max="10" required><br/>
+    <input type="number" name="numberOfCopies" min="1" max="10" required><br/>
     <br/>
     <input type="submit" value="Reserve Book">
   </form>
